@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="emrealtunbilek.com.notsepetiapp.notsepetiprovider"
+            android:name=".data.NotSepetiProvider"
+            android:exported="false" ></provider>
     </application>
 
 </manifest>

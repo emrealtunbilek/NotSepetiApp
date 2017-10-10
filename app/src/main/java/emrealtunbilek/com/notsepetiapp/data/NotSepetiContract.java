@@ -1,5 +1,6 @@
 package emrealtunbilek.com.notsepetiapp.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -7,6 +8,10 @@ import android.provider.BaseColumns;
  */
 
 public class NotSepetiContract {
+
+    public static final String CONTENT_AUTHORITY="emrealtunbilek.com.notsepetiapp.notsepetiprovider";
+    public static final String PATH_NOTLAR="notlar";
+    public static final Uri BASE_CONTENT_URI=Uri.parse("content://" +CONTENT_AUTHORITY);
 
     public static final class NotlarEntry implements BaseColumns{
 
