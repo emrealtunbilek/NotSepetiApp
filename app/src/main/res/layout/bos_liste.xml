@@ -8,6 +8,7 @@
         android:layout_width="@dimen/logo_genislik"
         android:layout_height="@dimen/logo_yukseklik"
         android:src="@drawable/logo"
+        android:tint="@color/colorPrimaryDark"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/logo_margin"
         />
