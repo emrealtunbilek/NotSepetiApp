@@ -56,7 +56,17 @@ public class NotlarProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+
+        Cursor cursor=null;
+
+        switch (matcher.match(uri)){
+
+            case 1:
+               cursor=db.query(NOTLAR_TABLE_NAME, projection,selection, selectionArgs, sortOrder, null,null);
+
+        }
+
+        return cursor;
     }
 
     @Nullable

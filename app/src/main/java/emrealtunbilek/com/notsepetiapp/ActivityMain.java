@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -28,7 +30,7 @@ public class ActivityMain extends AppCompatActivity {
     Button mButtonYeninot;
     RecyclerView mRecyclerViewNotlar;
     AdapterNotlarListesi mAdapterNotlarListesi;
-    ArrayList<Notlar> tumNotlar;
+    ArrayList<Notlar> tumNotlar=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,11 @@ public class ActivityMain extends AppCompatActivity {
             }
         });
 
-        tumNotlar=new ArrayList<>();
+
+
 
         mRecyclerViewNotlar= (RecyclerView) findViewById(R.id.rv_not_listesi);
-        mAdapterNotlarListesi=new AdapterNotlarListesi(this);
+        dataGuncelle();
         LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
         mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
         mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
@@ -60,6 +63,12 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
+    public void dataGuncelle() {
+        tumNotlar=tumNotlariGetir();
+        mAdapterNotlarListesi=new AdapterNotlarListesi(this, tumNotlar);
+        mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
+    }
+
     private void notekleDialogGoster() {
         FragmentDialogYeniNot dialog=new FragmentDialogYeniNot();
         dialog.show(getSupportFragmentManager(), "DialogYeniNot");
@@ -68,13 +77,13 @@ public class ActivityMain extends AppCompatActivity {
 
     private ArrayList<Notlar> tumNotlariGetir(){
 
-        Cursor cursor=getContentResolver().query(CONTENT_URI, null, null, null, null);
-        Notlar geciciNot=null;
+        Cursor cursor=getContentResolver().query(CONTENT_URI, new String[]{"id", "notIcerik"}, null, null, null);
+
 
         if(cursor != null){
 
             while(cursor.moveToNext()){
-
+                Notlar geciciNot=new Notlar();
                 geciciNot.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 geciciNot.setNotIcerik(cursor.getString(cursor.getColumnIndex("notIcerik")));
                 tumNotlar.add(geciciNot);
@@ -82,6 +91,7 @@ public class ActivityMain extends AppCompatActivity {
             }
         }
 
+        Toast.makeText(this, "Not Sayısı:" + tumNotlar.size(), Toast.LENGTH_LONG).show();
     return  tumNotlar;
 
     }

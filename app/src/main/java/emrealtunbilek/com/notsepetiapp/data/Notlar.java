@@ -11,6 +11,10 @@ public class Notlar {
     private String notTarih;
     private int tamamlandi;
 
+    public Notlar() {
+
+    }
+
     public Notlar(String notIcerik) {
         this.notIcerik = notIcerik;
     }
