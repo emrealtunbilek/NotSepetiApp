@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="emrealtunbilek.com.notsepetiapp.notlarprovider"
+            android:name=".data.NotlarProvider"
+            android:exported="true"
+            ></provider>
+
+
     </application>
 
 </manifest>

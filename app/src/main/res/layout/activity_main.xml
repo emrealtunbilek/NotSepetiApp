@@ -6,15 +6,26 @@
     android:layout_height="match_parent"
     tools:context="emrealtunbilek.com.notsepetiapp.ActivityMain">
 
-    <include layout="@layout/toolbar" android:id="@+id/toolbar"></include>
-
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_height="match_parent"
         android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 
-    <include layout="@layout/bos_liste"></include>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
+
+
+    <emrealtunbilek.com.notsepetiapp.NotlarRecyclerView
+        android:id="@+id/rv_not_listesi"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </emrealtunbilek.com.notsepetiapp.NotlarRecyclerView>
+
+
+    <include android:id="@+id/bos_liste" layout="@layout/bos_liste"></include>
 
 </RelativeLayout>
