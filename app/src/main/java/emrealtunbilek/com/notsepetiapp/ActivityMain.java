@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import emrealtunbilek.com.notsepetiapp.adapter.AdapterNotlarListesi;
 import emrealtunbilek.com.notsepetiapp.adapter.AddListener;
+import emrealtunbilek.com.notsepetiapp.adapter.Divider;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
@@ -55,6 +57,7 @@ public class ActivityMain extends AppCompatActivity implements AddListener{
 
 
         mRecyclerViewNotlar= (NotlarRecyclerView) findViewById(R.id.rv_not_listesi);
+        mRecyclerViewNotlar.addItemDecoration(new Divider(this,LinearLayoutManager.VERTICAL));
         mRecyclerViewNotlar.egerElemanYoksaSaklanacaklar(mToolbar);
         mRecyclerViewNotlar.egerElemanYoksaGosterilecekler(bosListe);
         dataGuncelle();
@@ -101,7 +104,7 @@ public class ActivityMain extends AppCompatActivity implements AddListener{
             }
         }
 
-        Toast.makeText(this, "Not Sayısı:" + tumNotlar.size(), Toast.LENGTH_LONG).show();
+
     return  tumNotlar;
 
     }
