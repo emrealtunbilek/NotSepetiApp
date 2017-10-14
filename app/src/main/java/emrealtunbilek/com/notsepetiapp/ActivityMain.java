@@ -19,10 +19,11 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import emrealtunbilek.com.notsepetiapp.adapter.AdapterNotlarListesi;
+import emrealtunbilek.com.notsepetiapp.adapter.AddListener;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
-public class ActivityMain extends AppCompatActivity {
+public class ActivityMain extends AppCompatActivity implements AddListener{
 
     static final Uri CONTENT_URI = NotlarProvider.CONTENT_URI;
 
@@ -65,12 +66,17 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     public void dataGuncelle() {
+
+
+
         tumNotlar.clear();
         tumNotlar=tumNotlariGetir();
         LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
         mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
         mAdapterNotlarListesi=new AdapterNotlarListesi(this, tumNotlar);
         mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
+
+        mAdapterNotlarListesi.setAddListener(this);
     }
 
     private void notekleDialogGoster() {
@@ -107,5 +113,10 @@ public class ActivityMain extends AppCompatActivity {
                 .apply(new RequestOptions().centerCrop())
                 .into(background);
 
+    }
+
+    @Override
+    public void ekleDialogGoster() {
+        notekleDialogGoster();
     }
 }
