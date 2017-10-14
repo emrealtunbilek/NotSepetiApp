@@ -26,9 +26,10 @@ public class ActivityMain extends AppCompatActivity {
 
     static final Uri CONTENT_URI = NotlarProvider.CONTENT_URI;
 
+    View bosListe;
     Toolbar mToolbar;
     Button mButtonYeninot;
-    RecyclerView mRecyclerViewNotlar;
+    NotlarRecyclerView mRecyclerViewNotlar;
     AdapterNotlarListesi mAdapterNotlarListesi;
     ArrayList<Notlar> tumNotlar=new ArrayList<>();
 
@@ -36,6 +37,8 @@ public class ActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bosListe=findViewById(R.id.bos_liste);
         mToolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -50,12 +53,10 @@ public class ActivityMain extends AppCompatActivity {
 
 
 
-        mRecyclerViewNotlar= (RecyclerView) findViewById(R.id.rv_not_listesi);
+        mRecyclerViewNotlar= (NotlarRecyclerView) findViewById(R.id.rv_not_listesi);
+        mRecyclerViewNotlar.egerElemanYoksaSaklanacaklar(mToolbar);
+        mRecyclerViewNotlar.egerElemanYoksaGosterilecekler(bosListe);
         dataGuncelle();
-        LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
-        mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
-        mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
-
 
 
         backgrounResminiYerlestir();
@@ -64,7 +65,10 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     public void dataGuncelle() {
+        tumNotlar.clear();
         tumNotlar=tumNotlariGetir();
+        LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
+        mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
         mAdapterNotlarListesi=new AdapterNotlarListesi(this, tumNotlar);
         mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
     }

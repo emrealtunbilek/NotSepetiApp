@@ -57,7 +57,7 @@ public class FragmentDialogYeniNot extends DialogFragment {
                 values.put("notIcerik", mNotIcerik.getText().toString());
                 values.put("notTarih", mNotIcerik.getText().toString());
                 Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, values);
-                Toast.makeText(getContext(), "" + uri, Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(), "" + uri, Toast.LENGTH_LONG).show();
                 ((ActivityMain)getActivity()).dataGuncelle();
             }
         });
