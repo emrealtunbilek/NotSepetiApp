@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
 /**
@@ -57,8 +59,8 @@ public class FragmentDialogYeniNot extends DialogFragment {
                 values.put("notIcerik", mNotIcerik.getText().toString());
                 values.put("notTarih", mNotIcerik.getText().toString());
                 Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, values);
-               // Toast.makeText(getContext(), "" + uri, Toast.LENGTH_LONG).show();
-                ((ActivityMain)getActivity()).dataGuncelle();
+
+                EventBus.getDefault().post(new DataEvent.DataGuncelleMethoduTetikle(1));
             }
         });
     }

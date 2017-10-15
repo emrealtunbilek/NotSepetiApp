@@ -4,30 +4,28 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 
 import emrealtunbilek.com.notsepetiapp.adapter.AdapterNotlarListesi;
-import emrealtunbilek.com.notsepetiapp.adapter.AddListener;
 import emrealtunbilek.com.notsepetiapp.adapter.Divider;
 import emrealtunbilek.com.notsepetiapp.adapter.SimpleTouchCallback;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
-public class ActivityMain extends AppCompatActivity implements AddListener{
+public class ActivityMain extends AppCompatActivity{
 
     static final Uri CONTENT_URI = NotlarProvider.CONTENT_URI;
 
@@ -72,7 +70,7 @@ public class ActivityMain extends AppCompatActivity implements AddListener{
         ItemTouchHelper helper=new ItemTouchHelper(callback);
         helper.attachToRecyclerView(mRecyclerViewNotlar);
 
-        mAdapterNotlarListesi.setAddListener(this);
+
         dataGuncelle();
 
 
@@ -125,8 +123,29 @@ public class ActivityMain extends AppCompatActivity implements AddListener{
 
     }
 
+    @Subscribe
+    public void onNotEkleDialogGoster(DataEvent.NotEkleDialogGoster event){
+        if(event.getTetikle()==1){
+            notekleDialogGoster();
+        }
+    }
+
+    @Subscribe
+    public void onDataGuncelleMethoduTetikle(DataEvent.DataGuncelleMethoduTetikle event){
+        if(event.getTetikle()==1){
+           dataGuncelle();
+        }
+    }
+
     @Override
-    public void ekleDialogGoster() {
-        notekleDialogGoster();
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

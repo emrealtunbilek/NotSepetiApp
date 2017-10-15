@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
+import emrealtunbilek.com.notsepetiapp.DataEvent;
 import emrealtunbilek.com.notsepetiapp.R;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
@@ -30,12 +33,9 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
 
     LayoutInflater mInflater;
     ArrayList<Notlar> tumNotlar;
-    private AddListener mAddListener;
     private ContentResolver resolver;
 
-    public void setAddListener(AddListener listener){
-        mAddListener=listener;
-    }
+
 
     public AdapterNotlarListesi(Context context, ArrayList<Notlar> notlar){
         resolver=context.getContentResolver();
@@ -133,7 +133,7 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public class FooterHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class FooterHolder extends RecyclerView.ViewHolder {
 
         Button mBtnFooterEkle;
 
@@ -141,13 +141,15 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
 
             mBtnFooterEkle= (Button) itemView.findViewById(R.id.btn_footer);
-            mBtnFooterEkle.setOnClickListener(this);
+            mBtnFooterEkle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new DataEvent.NotEkleDialogGoster(1));
+                }
+            });
 
         }
 
-        @Override
-        public void onClick(View v) {
-            mAddListener.ekleDialogGoster();
-        }
+
     }
 }
