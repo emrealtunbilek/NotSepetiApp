@@ -70,7 +70,11 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return tumNotlar.size() + 1;
+        if(tumNotlar == null || tumNotlar.isEmpty()){
+            return 0;
+        }else {
+            return tumNotlar.size() + 1;
+        }
     }
 
     @Override

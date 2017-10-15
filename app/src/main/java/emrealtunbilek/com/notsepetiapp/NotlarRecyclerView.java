@@ -58,7 +58,7 @@ public class NotlarRecyclerView extends RecyclerView {
         if(getAdapter() != null && !elemanYoksaSaklanacaklar.isEmpty() && !elemanYoksaGosterilecekler.isEmpty()){
 
             //eleman olmadığı durum
-            if(getAdapter().getItemCount()==1){
+            if(getAdapter().getItemCount()==0){
 
 
                 for(View view : elemanYoksaSaklanacaklar){
@@ -73,7 +73,7 @@ public class NotlarRecyclerView extends RecyclerView {
 
 
 
-            }else if (getAdapter().getItemCount()>1){
+            }else{
 
                 for(View view : elemanYoksaSaklanacaklar){
                     view.setVisibility(View.VISIBLE);
