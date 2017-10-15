@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import emrealtunbilek.com.notsepetiapp.adapter.AdapterNotlarListesi;
 import emrealtunbilek.com.notsepetiapp.adapter.AddListener;
 import emrealtunbilek.com.notsepetiapp.adapter.Divider;
+import emrealtunbilek.com.notsepetiapp.adapter.SimpleTouchCallback;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
@@ -60,6 +62,17 @@ public class ActivityMain extends AppCompatActivity implements AddListener{
         mRecyclerViewNotlar.addItemDecoration(new Divider(this,LinearLayoutManager.VERTICAL));
         mRecyclerViewNotlar.egerElemanYoksaSaklanacaklar(mToolbar);
         mRecyclerViewNotlar.egerElemanYoksaGosterilecekler(bosListe);
+        LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
+        mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
+        mAdapterNotlarListesi=new AdapterNotlarListesi(this, tumNotlar);
+        mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
+
+//swipe işlemi için yapılanlar
+        SimpleTouchCallback callback=new SimpleTouchCallback(mAdapterNotlarListesi);
+        ItemTouchHelper helper=new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(mRecyclerViewNotlar);
+
+        mAdapterNotlarListesi.setAddListener(this);
         dataGuncelle();
 
 
@@ -70,16 +83,10 @@ public class ActivityMain extends AppCompatActivity implements AddListener{
 
     public void dataGuncelle() {
 
-
-
         tumNotlar.clear();
         tumNotlar=tumNotlariGetir();
-        LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
-        mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
-        mAdapterNotlarListesi=new AdapterNotlarListesi(this, tumNotlar);
-        mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
+        mAdapterNotlarListesi.update(tumNotlar);
 
-        mAdapterNotlarListesi.setAddListener(this);
     }
 
     private void notekleDialogGoster() {

@@ -56,7 +56,7 @@ public class Divider extends RecyclerView.ItemDecoration {
 
                 mDivider.setBounds(sol, yukari, sag, asagi);
                 mDivider.draw(c);
-                Log.e("EMRE", ""+sol +" " + yukari + " " + sag + " " + asagi );
+               // Log.e("EMRE", ""+sol +" " + yukari + " " + sag + " " + asagi );
 
             }
 

@@ -1,6 +1,8 @@
 package emrealtunbilek.com.notsepetiapp.adapter;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,24 +16,29 @@ import java.util.ArrayList;
 
 import emrealtunbilek.com.notsepetiapp.R;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
+import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
 /**
  * Created by Emre Altunbilek on 12.10.2017.
  */
 
-public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SwipeListener {
 
     private static final int ITEM = 0;
     public static final int FOOTER = 1;
+    static final Uri CONTENT_URI = NotlarProvider.CONTENT_URI;
+
     LayoutInflater mInflater;
     ArrayList<Notlar> tumNotlar;
     private AddListener mAddListener;
+    private ContentResolver resolver;
 
     public void setAddListener(AddListener listener){
         mAddListener=listener;
     }
 
     public AdapterNotlarListesi(Context context, ArrayList<Notlar> notlar){
+        resolver=context.getContentResolver();
         mInflater=LayoutInflater.from(context);
         tumNotlar=notlar;
 
@@ -87,6 +94,30 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             return ITEM;
         }else return FOOTER;
     }
+
+
+    public void update(ArrayList<Notlar> tumNotlar) {
+        this.tumNotlar=tumNotlar;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSwipe(int position) {
+        if(position < tumNotlar.size()){
+            Notlar silinecekNot=tumNotlar.get(position);
+            String silinecekNotID=String.valueOf(silinecekNot.getId());
+            Log.e("SILINECEK NOT ID:", ""+silinecekNotID);
+            int etkilenenSatirSayisi=resolver.delete(CONTENT_URI,"id=?", new String[]{silinecekNotID});
+            if(etkilenenSatirSayisi != 0){
+                tumNotlar.remove(silinecekNot);
+                notifyDataSetChanged();
+                Log.e("SILINEN NOT ID : ", silinecekNotID);
+            }
+
+        }
+
+    }
+
 
     public static class NotHolder extends RecyclerView.ViewHolder{
 
