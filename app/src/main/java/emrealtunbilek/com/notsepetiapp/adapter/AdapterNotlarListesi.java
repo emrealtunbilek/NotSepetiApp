@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
  * Created by Emre Altunbilek on 12.10.2017.
  */
 
-public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SwipeListener {
+public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM = 0;
     public static final int FOOTER = 1;
@@ -101,8 +102,9 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
-    @Override
-    public void onSwipe(int position) {
+   @Subscribe
+    public void onSwipe(DataEvent.KaydirilanNotunPozisyonu event) {
+       int position=event.getPosition();
         if(position < tumNotlar.size()){
             Notlar silinecekNot=tumNotlar.get(position);
             String silinecekNotID=String.valueOf(silinecekNot.getId());
@@ -151,5 +153,17 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
         }
 
 
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -4,17 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
+import emrealtunbilek.com.notsepetiapp.DataEvent;
+
 /**
  * Created by Emre Altunbilek on 15.10.2017.
  */
 
 public class SimpleTouchCallback extends ItemTouchHelper.Callback {
-
-    SwipeListener mSwipeListener;
-
-    public SimpleTouchCallback(SwipeListener mSwipeListener) {
-        this.mSwipeListener = mSwipeListener;
-    }
 
 
     @Override
@@ -47,7 +45,8 @@ public class SimpleTouchCallback extends ItemTouchHelper.Callback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
 
-            mSwipeListener.onSwipe(viewHolder.getAdapterPosition());
+           // mSwipeListener.onSwipe(viewHolder.getAdapterPosition());
+        EventBus.getDefault().post(new DataEvent.KaydirilanNotunPozisyonu(viewHolder.getAdapterPosition()));
 
 
     }

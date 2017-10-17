@@ -40,4 +40,21 @@ public class DataEvent {
             this.tetikle = tetikle;
         }
     }
+
+    public static class KaydirilanNotunPozisyonu{
+
+        private int position;
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public KaydirilanNotunPozisyonu(int position) {
+            this.position = position;
+        }
+    }
 }

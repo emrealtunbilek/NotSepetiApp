@@ -66,7 +66,7 @@ public class ActivityMain extends AppCompatActivity{
         mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
 
 //swipe işlemi için yapılanlar
-        SimpleTouchCallback callback=new SimpleTouchCallback(mAdapterNotlarListesi);
+        SimpleTouchCallback callback=new SimpleTouchCallback();
         ItemTouchHelper helper=new ItemTouchHelper(callback);
         helper.attachToRecyclerView(mRecyclerViewNotlar);
 
