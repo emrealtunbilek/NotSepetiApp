@@ -57,4 +57,38 @@ public class DataEvent {
             this.position = position;
         }
     }
+
+    public static class DialogTamamlaNotPosition{
+
+        private int position;
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public DialogTamamlaNotPosition(int position) {
+            this.position = position;
+        }
+    }
+
+    public static class TamamlanacakNotPosition{
+
+        private int position;
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public TamamlanacakNotPosition(int position) {
+            this.position = position;
+        }
+    }
 }

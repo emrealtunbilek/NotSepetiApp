@@ -132,6 +132,13 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             mTextNotIcerik= (TextView) itemView.findViewById(R.id.tv_not_icerik);
             mTextNotTarih= (TextView) itemView.findViewById(R.id.tv_not_tarih);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new DataEvent.DialogTamamlaNotPosition(getAdapterPosition()));
+                }
+            });
+
         }
     }
 

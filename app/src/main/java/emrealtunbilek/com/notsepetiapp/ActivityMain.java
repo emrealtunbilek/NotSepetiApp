@@ -1,5 +1,6 @@
 package emrealtunbilek.com.notsepetiapp;
 
+import android.app.usage.UsageEvents;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -93,6 +94,14 @@ public class ActivityMain extends AppCompatActivity{
 
     }
 
+    private void notTamamlaDialogGoster(int position) {
+
+        EventBus.getDefault().postSticky(new DataEvent.TamamlanacakNotPosition(position));
+        FragmentDialogTamamla dialog=new FragmentDialogTamamla();
+        dialog.show(getSupportFragmentManager(), "DialogNotTamamla");
+
+    }
+
     private ArrayList<Notlar> tumNotlariGetir(){
 
         Cursor cursor=getContentResolver().query(CONTENT_URI, new String[]{"id", "notIcerik"}, null, null, null);
@@ -120,6 +129,13 @@ public class ActivityMain extends AppCompatActivity{
                 .load(R.drawable.background)
                 .apply(new RequestOptions().centerCrop())
                 .into(background);
+
+    }
+
+    @Subscribe
+    public void onDialogNotTamamla(DataEvent.DialogTamamlaNotPosition event){
+
+        notTamamlaDialogGoster(event.getPosition());
 
     }
 

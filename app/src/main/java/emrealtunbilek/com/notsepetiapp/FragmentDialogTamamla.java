@@ -1,5 +1,7 @@
 package emrealtunbilek.com.notsepetiapp;
 
+import android.app.usage.UsageEvents;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -8,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by Emre Altunbilek on 17.10.2017.
@@ -17,6 +23,7 @@ public class FragmentDialogTamamla extends DialogFragment {
 
     private ImageButton mBtnKapat;
     private Button mBtnTamamlandi;
+    static int notAdapterPosition=0;
 
     @Nullable
     @Override
@@ -37,6 +44,31 @@ public class FragmentDialogTamamla extends DialogFragment {
         });
 
         mBtnTamamlandi= (Button) view.findViewById(R.id.btn_tamamlandi);
+        mBtnTamamlandi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "POSITION : " + notAdapterPosition, Toast.LENGTH_LONG).show();
+            }
+        });
 
+    }
+
+    @Subscribe (sticky = true)
+    public void onDialogTamamlaNotPosition(DataEvent.TamamlanacakNotPosition event){
+
+        notAdapterPosition=event.getPosition();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
     }
 }
