@@ -91,4 +91,21 @@ public class DataEvent {
             this.position = position;
         }
     }
+
+    public static class NotTamamlaPosition{
+
+        private int position;
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public NotTamamlaPosition(int position) {
+            this.position = position;
+        }
+    }
 }

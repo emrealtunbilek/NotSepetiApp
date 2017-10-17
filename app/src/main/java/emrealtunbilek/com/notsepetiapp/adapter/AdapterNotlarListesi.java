@@ -1,8 +1,11 @@
 package emrealtunbilek.com.notsepetiapp.adapter;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,10 +38,12 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
     LayoutInflater mInflater;
     ArrayList<Notlar> tumNotlar;
     private ContentResolver resolver;
+    static  Context mContext;
 
 
 
     public AdapterNotlarListesi(Context context, ArrayList<Notlar> notlar){
+        mContext=context;
         resolver=context.getContentResolver();
         mInflater=LayoutInflater.from(context);
         tumNotlar=notlar;
@@ -71,6 +76,7 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             NotHolder notHolder= (NotHolder) holder;
             notHolder.mTextNotIcerik.setText(tumNotlar.get(position).getNotIcerik());
             notHolder.mTextNotTarih.setText(""+tumNotlar.get(position).getId());
+            notHolder.setBackgroundRenk(tumNotlar.get(position).getTamamlandi());
         }
 
 
@@ -102,6 +108,30 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
+    @Subscribe
+    public void onNotTamamlaPosition(DataEvent.NotTamamlaPosition event){
+
+        int position=event.getPosition();
+        if(position<tumNotlar.size()){
+
+            Notlar tamamlanacakNot=tumNotlar.get(position);
+            String tamamlanacakNotID=String.valueOf(tamamlanacakNot.getId());
+
+            ContentValues values=new ContentValues();
+            values.put("tamamlandi", 1);
+
+            int etkilenenSatirSayisi=resolver.update(CONTENT_URI, values, "id=?", new String[]{tamamlanacakNotID});
+            if(etkilenenSatirSayisi!=0){
+                tamamlanacakNot.setTamamlandi(1);
+                tumNotlar.set(position, tamamlanacakNot);
+                Log.e("TAMAMLANDI ID", tamamlanacakNotID);
+                notifyDataSetChanged();
+            }
+
+        }
+
+    }
+
    @Subscribe
     public void onSwipe(DataEvent.KaydirilanNotunPozisyonu event) {
        int position=event.getPosition();
@@ -125,10 +155,11 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
 
         TextView mTextNotIcerik;
         TextView mTextNotTarih;
+        View mItemView;
 
         public NotHolder(View itemView) {
             super(itemView);
-
+            mItemView=itemView;
             mTextNotIcerik= (TextView) itemView.findViewById(R.id.tv_not_icerik);
             mTextNotTarih= (TextView) itemView.findViewById(R.id.tv_not_tarih);
 
@@ -139,6 +170,20 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
+        }
+
+        public void setBackgroundRenk(int tamamlandi) {
+
+            Drawable backgroundDrawable;
+
+            if(tamamlandi==0){
+                backgroundDrawable= ContextCompat.getDrawable(mContext, R.color.tamamlanmamis_not);
+
+            }else {
+
+            backgroundDrawable=ContextCompat.getDrawable(mContext, R.color.tamamlanmis_not);
+            }
+            mItemView.setBackground(backgroundDrawable);
         }
     }
 

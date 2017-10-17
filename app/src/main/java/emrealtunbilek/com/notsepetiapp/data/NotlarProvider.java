@@ -112,7 +112,18 @@ public class NotlarProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        int etkilenenSatirSayisi=0;
+
+        switch (matcher.match(uri)){
+
+            case 1:
+                etkilenenSatirSayisi= db.update(NOTLAR_TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+
+        }
+
+        return etkilenenSatirSayisi;
     }
 
     private class DatabaseHelper extends SQLiteOpenHelper{

@@ -104,7 +104,7 @@ public class ActivityMain extends AppCompatActivity{
 
     private ArrayList<Notlar> tumNotlariGetir(){
 
-        Cursor cursor=getContentResolver().query(CONTENT_URI, new String[]{"id", "notIcerik"}, null, null, null);
+        Cursor cursor=getContentResolver().query(CONTENT_URI, new String[]{"id", "notIcerik", "tamamlandi"}, null, null, null);
 
 
         if(cursor != null){
@@ -113,6 +113,7 @@ public class ActivityMain extends AppCompatActivity{
                 Notlar geciciNot=new Notlar();
                 geciciNot.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 geciciNot.setNotIcerik(cursor.getString(cursor.getColumnIndex("notIcerik")));
+                geciciNot.setTamamlandi(cursor.getInt(cursor.getColumnIndex("tamamlandi")));
                 tumNotlar.add(geciciNot);
 
             }

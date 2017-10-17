@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#C2185B</color>
     <color name="colorAccent">#00BCD4</color>
     <color name="dialog_background">#87075463</color>
+    <color name="tamamlanmamis_not">#96e91e63</color>
+    <color name="tamamlanmis_not">#50e91e63</color>
 
 </resources>

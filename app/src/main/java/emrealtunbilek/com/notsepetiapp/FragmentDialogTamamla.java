@@ -47,7 +47,8 @@ public class FragmentDialogTamamla extends DialogFragment {
         mBtnTamamlandi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "POSITION : " + notAdapterPosition, Toast.LENGTH_LONG).show();
+               EventBus.getDefault().post(new DataEvent.NotTamamlaPosition(notAdapterPosition));
+                dismiss();
             }
         });
 
