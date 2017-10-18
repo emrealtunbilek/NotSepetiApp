@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Calendar;
+
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
 /**
@@ -55,10 +57,24 @@ public class FragmentDialogYeniNot extends DialogFragment {
         mBtnNotEkle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Calendar calendar=Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_MONTH, mNotTarih.getDayOfMonth());
+                calendar.set(Calendar.MONTH, mNotTarih.getMonth());
+                calendar.set(Calendar.YEAR, mNotTarih.getYear());
+
+                calendar.set(Calendar.HOUR,0);
+                calendar.set(Calendar.MINUTE,0);
+                calendar.set(Calendar.SECOND,0);
+
+
+
                 ContentValues values = new ContentValues();
                 values.put("notIcerik", mNotIcerik.getText().toString());
-                values.put("notTarih", mNotIcerik.getText().toString());
+                values.put("notTarih", calendar.getTimeInMillis());
                 Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, values);
+
+                Toast.makeText(getContext(), "Tarih:"+calendar.getTimeInMillis(), Toast.LENGTH_LONG).show();
 
                 EventBus.getDefault().post(new DataEvent.DataGuncelleMethoduTetikle(1));
             }

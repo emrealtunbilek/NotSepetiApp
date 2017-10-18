@@ -8,7 +8,7 @@ public class Notlar {
 
     private int id;
     private String notIcerik;
-    private String notTarih;
+    private long notTarih;
     private int tamamlandi;
 
     public Notlar() {
@@ -35,11 +35,11 @@ public class Notlar {
         this.notIcerik = notIcerik;
     }
 
-    public String getNotTarih() {
+    public long getNotTarih() {
         return notTarih;
     }
 
-    public void setNotTarih(String notTarih) {
+    public void setNotTarih(long notTarih) {
         this.notTarih = notTarih;
     }
 

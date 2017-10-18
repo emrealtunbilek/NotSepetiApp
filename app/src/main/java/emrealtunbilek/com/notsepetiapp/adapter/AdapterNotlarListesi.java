@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,9 +75,11 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof NotHolder){
             NotHolder notHolder= (NotHolder) holder;
-            notHolder.mTextNotIcerik.setText(tumNotlar.get(position).getNotIcerik());
-            notHolder.mTextNotTarih.setText(""+tumNotlar.get(position).getId());
-            notHolder.setBackgroundRenk(tumNotlar.get(position).getTamamlandi());
+            Notlar geciciNot=tumNotlar.get(position);
+            notHolder.mTextNotIcerik.setText(geciciNot.getNotIcerik());
+            notHolder.mTextNotTarih.setText(""+geciciNot.getNotTarih());
+            notHolder.setBackgroundRenk(geciciNot.getTamamlandi());
+            notHolder.setTarih(geciciNot.getNotTarih());
         }
 
 
@@ -184,6 +187,10 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             backgroundDrawable=ContextCompat.getDrawable(mContext, R.color.tamamlanmis_not);
             }
             mItemView.setBackground(backgroundDrawable);
+        }
+
+        public void setTarih(long notTarih) {
+            mTextNotTarih.setText(DateUtils.getRelativeTimeSpanString(notTarih, System.currentTimeMillis(),DateUtils.DAY_IN_MILLIS,0));
         }
     }
 

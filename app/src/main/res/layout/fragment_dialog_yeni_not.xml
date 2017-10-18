@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_not"
-        android:visibility="gone"
         ></DatePicker>
     <Button
         android:layout_width="match_parent"
