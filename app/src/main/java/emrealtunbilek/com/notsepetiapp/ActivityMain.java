@@ -31,6 +31,8 @@ import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 public class ActivityMain extends AppCompatActivity{
 
     static final Uri CONTENT_URI = NotlarProvider.CONTENT_URI;
+    static final String SIRALAMA_ONEMSIZ="SIRALAMA ONEMSIZ";
+    static final String TAMAMLANMA_ONEMSIZ="TAMAMLANMA ONEMSIZ";
 
     View bosListe;
     Toolbar mToolbar;
@@ -74,7 +76,7 @@ public class ActivityMain extends AppCompatActivity{
         helper.attachToRecyclerView(mRecyclerViewNotlar);
 
 
-        dataGuncelle();
+        dataGuncelle(SIRALAMA_ONEMSIZ, TAMAMLANMA_ONEMSIZ);
 
 
         backgrounResminiYerlestir();
@@ -82,10 +84,10 @@ public class ActivityMain extends AppCompatActivity{
 
     }
 
-    public void dataGuncelle() {
+    public void dataGuncelle(String siralama, String tamamlanma) {
 
         tumNotlar.clear();
-        tumNotlar=tumNotlariGetir();
+        tumNotlar=tumNotlariGetir(siralama, tamamlanma);
         mAdapterNotlarListesi.update(tumNotlar);
 
     }
@@ -104,9 +106,23 @@ public class ActivityMain extends AppCompatActivity{
 
     }
 
-    private ArrayList<Notlar> tumNotlariGetir(){
+    private ArrayList<Notlar> tumNotlariGetir(String siralama, String tamamlanma){
 
-        Cursor cursor=getContentResolver().query(CONTENT_URI, new String[]{"id", "notIcerik", "notTarih", "tamamlandi"}, null, null, null);
+        String siralamaSorgusu=siralama;
+        String selection="tamamlandi=?";
+        String[] tamamlanmaSorgusu={tamamlanma};
+
+        if(siralama.equals(SIRALAMA_ONEMSIZ)){
+            siralamaSorgusu=null;
+        }
+        if(tamamlanma.equals(TAMAMLANMA_ONEMSIZ)){
+            selection=null;
+            tamamlanmaSorgusu=null;
+        }
+
+
+
+        Cursor cursor=getContentResolver().query(CONTENT_URI, new String[]{"id", "notIcerik", "notTarih", "tamamlandi"}, selection, tamamlanmaSorgusu, siralamaSorgusu);
 
 
         if(cursor != null){
@@ -145,20 +161,20 @@ public class ActivityMain extends AppCompatActivity{
                 break;
 
             case R.id.menu_cokvakit:
-
+                dataGuncelle("notTarih DESC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case R.id.menu_azvakit:
-
+                dataGuncelle("notTarih ASC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case R.id.menu_tamamlananlar:
-
+                dataGuncelle(SIRALAMA_ONEMSIZ, "1");
                 break;
 
 
             case R.id.menu_tamamlanmayanlar:
-
+                dataGuncelle(SIRALAMA_ONEMSIZ, "0");
                 break;
 
         }
@@ -192,7 +208,7 @@ public class ActivityMain extends AppCompatActivity{
     @Subscribe
     public void onDataGuncelleMethoduTetikle(DataEvent.DataGuncelleMethoduTetikle event){
         if(event.getTetikle()==1){
-           dataGuncelle();
+           dataGuncelle(SIRALAMA_ONEMSIZ, TAMAMLANMA_ONEMSIZ);
         }
     }
 

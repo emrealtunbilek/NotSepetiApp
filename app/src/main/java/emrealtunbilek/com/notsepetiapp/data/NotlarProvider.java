@@ -62,7 +62,7 @@ public class NotlarProvider extends ContentProvider {
         switch (matcher.match(uri)){
 
             case 1:
-               cursor=db.query(NOTLAR_TABLE_NAME, projection,selection, selectionArgs, sortOrder, null,null);
+               cursor=db.query(NOTLAR_TABLE_NAME, projection,selection, selectionArgs, null, null,sortOrder);
 
         }
 
