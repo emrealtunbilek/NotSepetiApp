@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -123,6 +125,45 @@ public class ActivityMain extends AppCompatActivity{
 
     return  tumNotlar;
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id=item.getItemId();
+
+        switch (id){
+
+            case R.id.menu_yeninot:
+                notekleDialogGoster();
+                break;
+
+            case R.id.menu_cokvakit:
+
+                break;
+
+            case R.id.menu_azvakit:
+
+                break;
+
+            case R.id.menu_tamamlananlar:
+
+                break;
+
+
+            case R.id.menu_tamamlanmayanlar:
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void backgrounResminiYerlestir() {

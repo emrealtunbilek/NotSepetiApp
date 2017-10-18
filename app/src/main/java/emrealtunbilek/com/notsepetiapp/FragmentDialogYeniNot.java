@@ -77,6 +77,7 @@ public class FragmentDialogYeniNot extends DialogFragment {
                 Toast.makeText(getContext(), "Tarih:"+calendar.getTimeInMillis(), Toast.LENGTH_LONG).show();
 
                 EventBus.getDefault().post(new DataEvent.DataGuncelleMethoduTetikle(1));
+                dismiss();
             }
         });
     }
