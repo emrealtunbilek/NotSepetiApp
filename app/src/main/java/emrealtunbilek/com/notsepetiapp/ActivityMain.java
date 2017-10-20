@@ -1,6 +1,7 @@
 package emrealtunbilek.com.notsepetiapp;
 
 import android.app.usage.UsageEvents;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 
 import emrealtunbilek.com.notsepetiapp.adapter.AdapterNotlarListesi;
 import emrealtunbilek.com.notsepetiapp.adapter.Divider;
+import emrealtunbilek.com.notsepetiapp.adapter.Filtreler;
 import emrealtunbilek.com.notsepetiapp.adapter.SimpleTouchCallback;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
@@ -76,8 +78,35 @@ public class ActivityMain extends AppCompatActivity{
         helper.attachToRecyclerView(mRecyclerViewNotlar);
 
 
-        dataGuncelle(SIRALAMA_ONEMSIZ, TAMAMLANMA_ONEMSIZ);
+        int secilenFiltre=sharedOku();
 
+        switch (secilenFiltre){
+
+            case 0:
+                dataGuncelle(SIRALAMA_ONEMSIZ, TAMAMLANMA_ONEMSIZ);
+                break;
+
+            case 1:
+                sharedYaz(Filtreler.COK_VAKIT_VAR);
+                dataGuncelle("notTarih DESC", TAMAMLANMA_ONEMSIZ);
+                break;
+
+            case 2:
+                sharedYaz(Filtreler.AZ_VAKIT_KALDI);
+                dataGuncelle("notTarih ASC", TAMAMLANMA_ONEMSIZ);
+                break;
+
+            case 3:
+                sharedYaz(Filtreler.TAMAMLANANLAR);
+                dataGuncelle(SIRALAMA_ONEMSIZ, "1");
+                break;
+
+
+            case 4:
+                sharedYaz(Filtreler.TAMAMLANMAYANLAR);
+                dataGuncelle(SIRALAMA_ONEMSIZ, "0");
+                break;
+        }
 
         backgrounResminiYerlestir();
 
@@ -103,6 +132,23 @@ public class ActivityMain extends AppCompatActivity{
         EventBus.getDefault().postSticky(new DataEvent.TamamlanacakNotPosition(position));
         FragmentDialogTamamla dialog=new FragmentDialogTamamla();
         dialog.show(getSupportFragmentManager(), "DialogNotTamamla");
+
+    }
+
+    private void sharedYaz(int secilenFiltre){
+
+        SharedPreferences preferences=getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putInt("filtre", secilenFiltre);
+        editor.apply();
+
+    }
+
+    private int sharedOku(){
+
+        SharedPreferences preferences=getPreferences(MODE_PRIVATE);
+        int secilenFiltre=preferences.getInt("filtre", 0);
+        return secilenFiltre;
 
     }
 
@@ -153,6 +199,7 @@ public class ActivityMain extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id=item.getItemId();
+        boolean sonuc=true;
 
         switch (id){
 
@@ -161,25 +208,34 @@ public class ActivityMain extends AppCompatActivity{
                 break;
 
             case R.id.menu_cokvakit:
+                sharedYaz(Filtreler.COK_VAKIT_VAR);
                 dataGuncelle("notTarih DESC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case R.id.menu_azvakit:
+                sharedYaz(Filtreler.AZ_VAKIT_KALDI);
                 dataGuncelle("notTarih ASC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case R.id.menu_tamamlananlar:
+                sharedYaz(Filtreler.TAMAMLANANLAR);
                 dataGuncelle(SIRALAMA_ONEMSIZ, "1");
                 break;
 
 
             case R.id.menu_tamamlanmayanlar:
+                sharedYaz(Filtreler.TAMAMLANMAYANLAR);
                 dataGuncelle(SIRALAMA_ONEMSIZ, "0");
+                break;
+
+            default:
+                sonuc=false;
+                sharedYaz(Filtreler.NOFILTER);
                 break;
 
         }
 
-        return super.onOptionsItemSelected(item);
+        return sonuc;
     }
 
     private void backgrounResminiYerlestir() {
