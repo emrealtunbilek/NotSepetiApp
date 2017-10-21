@@ -33,6 +33,13 @@ public class FragmentDialogYeniNot extends DialogFragment {
     private DatePicker mNotTarih;
     private Button mBtnNotEkle;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.dialogTemasi);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

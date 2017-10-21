@@ -25,6 +25,15 @@ public class FragmentDialogTamamla extends DialogFragment {
     private Button mBtnTamamlandi;
     static int notAdapterPosition=0;
 
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.dialogTemasi);
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
