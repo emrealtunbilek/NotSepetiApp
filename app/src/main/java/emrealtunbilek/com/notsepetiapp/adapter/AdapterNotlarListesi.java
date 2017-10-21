@@ -22,6 +22,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 
 import emrealtunbilek.com.notsepetiapp.DataEvent;
+import emrealtunbilek.com.notsepetiapp.NotSepetiApp;
 import emrealtunbilek.com.notsepetiapp.R;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
@@ -32,14 +33,21 @@ import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
 public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ITEM = 0;
-    public static final int FOOTER = 1;
+    public static final int ITEM = 0;
+    public static final int BOS_FILTRE = 1;
+    public static final int FOOTER = 2;
+
+    public static final int FOOTER_EKLE = 1;
+    public static final int BOS_FILTRE_EKLE = 1;
+
+
     static final Uri CONTENT_URI = NotlarProvider.CONTENT_URI;
 
     LayoutInflater mInflater;
     ArrayList<Notlar> tumNotlar;
     private ContentResolver resolver;
     static  Context mContext;
+    private int mFiltre;
 
 
 
@@ -58,16 +66,19 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             View view=mInflater.inflate(R.layout.tek_satir_not, parent, false);
             NotHolder holder=new NotHolder(view);
             return  holder;
-        }else if (viewType == FOOTER){
+        }else if(viewType == BOS_FILTRE){
+
+            View view=mInflater.inflate(R.layout.bos_filtre, parent, false);
+            BosFiltreHolder holder=new BosFiltreHolder(view);
+            return holder;
+
+        }else{
 
             View view=mInflater.inflate(R.layout.footer, parent, false);
             FooterHolder footerHolder=new FooterHolder(view);
-
             return footerHolder;
-
         }
 
-        return null;
 
     }
 
@@ -87,27 +98,64 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        if(tumNotlar == null || tumNotlar.isEmpty()){
-            return 0;
-        }else {
-            return tumNotlar.size() + 1;
+
+        if(!tumNotlar.isEmpty()){
+
+            return tumNotlar.size() + FOOTER_EKLE;
+        }else{
+
+            if(mFiltre==Filtreler.AZ_VAKIT_KALDI || mFiltre==Filtreler.COK_VAKIT_VAR || mFiltre==Filtreler.NOFILTER){
+                return 0;
+            }else{
+
+                return FOOTER_EKLE + BOS_FILTRE_EKLE;
+
+            }
+
+
         }
+
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(tumNotlar == null || tumNotlar.size()==0){
 
-            return ITEM;
+        if(!tumNotlar.isEmpty()){
 
-        }else if(position < tumNotlar.size()){
-            return ITEM;
-        }else return FOOTER;
+            if(position < tumNotlar.size()){
+                return ITEM;
+            }else{
+
+                return FOOTER;
+            }
+
+        }else {
+
+            if(mFiltre == Filtreler.TAMAMLANANLAR || mFiltre==Filtreler.TAMAMLANMAYANLAR){
+
+                if (position == 0){
+                    return BOS_FILTRE;
+                }else {
+
+                    return FOOTER;
+                }
+
+            }else{
+
+                return ITEM;
+            }
+
+
+
+
+        }
+
     }
 
 
     public void update(ArrayList<Notlar> tumNotlar) {
         this.tumNotlar=tumNotlar;
+        mFiltre= NotSepetiApp.sharedOku(mContext);
         notifyDataSetChanged();
     }
 
@@ -141,12 +189,12 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
         if(position < tumNotlar.size()){
             Notlar silinecekNot=tumNotlar.get(position);
             String silinecekNotID=String.valueOf(silinecekNot.getId());
-            Log.e("SILINECEK NOT ID:", ""+silinecekNotID);
+
             int etkilenenSatirSayisi=resolver.delete(CONTENT_URI,"id=?", new String[]{silinecekNotID});
             if(etkilenenSatirSayisi != 0){
                 tumNotlar.remove(silinecekNot);
-                notifyDataSetChanged();
-                Log.e("SILINEN NOT ID : ", silinecekNotID);
+                update(tumNotlar);
+
             }
 
         }
@@ -212,6 +260,14 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
         }
 
 
+    }
+    public class BosFiltreHolder extends RecyclerView.ViewHolder {
+
+
+        public BosFiltreHolder(View itemView) {
+            super(itemView);
+
+        }
     }
 
     @Override

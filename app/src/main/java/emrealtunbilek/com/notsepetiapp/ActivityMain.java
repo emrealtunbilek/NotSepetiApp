@@ -78,7 +78,7 @@ public class ActivityMain extends AppCompatActivity{
         helper.attachToRecyclerView(mRecyclerViewNotlar);
 
 
-        int secilenFiltre=sharedOku();
+        int secilenFiltre= NotSepetiApp.sharedOku(this);
 
         switch (secilenFiltre){
 
@@ -87,23 +87,23 @@ public class ActivityMain extends AppCompatActivity{
                 break;
 
             case 1:
-                sharedYaz(Filtreler.COK_VAKIT_VAR);
+                NotSepetiApp.sharedYaz(this,Filtreler.COK_VAKIT_VAR);
                 dataGuncelle("notTarih DESC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case 2:
-                sharedYaz(Filtreler.AZ_VAKIT_KALDI);
+                NotSepetiApp.sharedYaz(this,Filtreler.AZ_VAKIT_KALDI);
                 dataGuncelle("notTarih ASC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case 3:
-                sharedYaz(Filtreler.TAMAMLANANLAR);
+                NotSepetiApp.sharedYaz(this,Filtreler.TAMAMLANANLAR);
                 dataGuncelle(SIRALAMA_ONEMSIZ, "1");
                 break;
 
 
             case 4:
-                sharedYaz(Filtreler.TAMAMLANMAYANLAR);
+                NotSepetiApp.sharedYaz(this,Filtreler.TAMAMLANMAYANLAR);
                 dataGuncelle(SIRALAMA_ONEMSIZ, "0");
                 break;
         }
@@ -135,22 +135,7 @@ public class ActivityMain extends AppCompatActivity{
 
     }
 
-    private void sharedYaz(int secilenFiltre){
 
-        SharedPreferences preferences=getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor=preferences.edit();
-        editor.putInt("filtre", secilenFiltre);
-        editor.apply();
-
-    }
-
-    private int sharedOku(){
-
-        SharedPreferences preferences=getPreferences(MODE_PRIVATE);
-        int secilenFiltre=preferences.getInt("filtre", 0);
-        return secilenFiltre;
-
-    }
 
     private ArrayList<Notlar> tumNotlariGetir(String siralama, String tamamlanma){
 
@@ -207,30 +192,35 @@ public class ActivityMain extends AppCompatActivity{
                 notekleDialogGoster();
                 break;
 
+            case R.id.no_filter:
+                NotSepetiApp.sharedYaz(this,Filtreler.NOFILTER);
+                dataGuncelle(SIRALAMA_ONEMSIZ, TAMAMLANMA_ONEMSIZ);
+                break;
+
             case R.id.menu_cokvakit:
-                sharedYaz(Filtreler.COK_VAKIT_VAR);
+                NotSepetiApp.sharedYaz(this,Filtreler.COK_VAKIT_VAR);
                 dataGuncelle("notTarih DESC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case R.id.menu_azvakit:
-                sharedYaz(Filtreler.AZ_VAKIT_KALDI);
+                NotSepetiApp.sharedYaz(this,Filtreler.AZ_VAKIT_KALDI);
                 dataGuncelle("notTarih ASC", TAMAMLANMA_ONEMSIZ);
                 break;
 
             case R.id.menu_tamamlananlar:
-                sharedYaz(Filtreler.TAMAMLANANLAR);
+                NotSepetiApp.sharedYaz(this,Filtreler.TAMAMLANANLAR);
                 dataGuncelle(SIRALAMA_ONEMSIZ, "1");
                 break;
 
 
             case R.id.menu_tamamlanmayanlar:
-                sharedYaz(Filtreler.TAMAMLANMAYANLAR);
+                NotSepetiApp.sharedYaz(this,Filtreler.TAMAMLANMAYANLAR);
                 dataGuncelle(SIRALAMA_ONEMSIZ, "0");
                 break;
 
             default:
                 sonuc=false;
-                sharedYaz(Filtreler.NOFILTER);
+                NotSepetiApp.sharedYaz(this,Filtreler.NOFILTER);
                 break;
 
         }

@@ -8,7 +8,7 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_action_add">
     </item>
-
+    <item android:title="FILTRE YOK" android:id="@+id/no_filter"></item>
     <item android:title="Çok Vakit Var" android:id="@+id/menu_cokvakit"></item>
     <item android:title="Az Zaman Kaldı" android:id="@+id/menu_azvakit"></item>
     <item android:title="Tamamlananlar" android:id="@+id/menu_tamamlananlar"></item>
