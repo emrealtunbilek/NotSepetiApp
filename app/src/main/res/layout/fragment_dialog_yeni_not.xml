@@ -32,12 +32,12 @@
         android:hint="Not girin"
         android:padding="16dp"
         />
-    <DatePicker
+    <emrealtunbilek.com.notsepetiapp.TarihSecDatePicker
         android:id="@+id/dp_tarih"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_not"
-        ></DatePicker>
+        ></emrealtunbilek.com.notsepetiapp.TarihSecDatePicker>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -30,7 +30,7 @@ public class FragmentDialogYeniNot extends DialogFragment {
 
     private ImageButton mBtnKapat;
     private EditText mNotIcerik;
-    private DatePicker mNotTarih;
+    private TarihSecDatePicker mNotTarih;
     private Button mBtnNotEkle;
 
 
@@ -51,7 +51,7 @@ public class FragmentDialogYeniNot extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         mBtnKapat = (ImageButton) view.findViewById(R.id.btn_dialog_kapat);
         mNotIcerik = (EditText) view.findViewById(R.id.et_not);
-        mNotTarih = (DatePicker) view.findViewById(R.id.dp_tarih);
+        mNotTarih = (TarihSecDatePicker) view.findViewById(R.id.dp_tarih);
         mBtnNotEkle = (Button) view.findViewById(R.id.btn_not_ekle);
 
         mBtnKapat.setOnClickListener(new View.OnClickListener() {
@@ -65,24 +65,10 @@ public class FragmentDialogYeniNot extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                Calendar calendar=Calendar.getInstance();
-                calendar.set(Calendar.DAY_OF_MONTH, mNotTarih.getDayOfMonth());
-                calendar.set(Calendar.MONTH, mNotTarih.getMonth());
-                calendar.set(Calendar.YEAR, mNotTarih.getYear());
-
-                calendar.set(Calendar.HOUR,0);
-                calendar.set(Calendar.MINUTE,0);
-                calendar.set(Calendar.SECOND,0);
-
-
-
                 ContentValues values = new ContentValues();
                 values.put("notIcerik", mNotIcerik.getText().toString());
-                values.put("notTarih", calendar.getTimeInMillis());
+                values.put("notTarih", mNotTarih.getTime());
                 Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, values);
-
-                Toast.makeText(getContext(), "Tarih:"+calendar.getTimeInMillis(), Toast.LENGTH_LONG).show();
-
                 EventBus.getDefault().post(new DataEvent.DataGuncelleMethoduTetikle(1));
                 dismiss();
             }
