@@ -118,6 +118,20 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
+    public long getItemId(int position) {
+
+        if(position < tumNotlar.size()){
+
+            return tumNotlar.get(position).getId();
+
+        }
+
+        return RecyclerView.NO_ID;
+
+
+    }
+
+    @Override
     public int getItemViewType(int position) {
 
         if(!tumNotlar.isEmpty()){
@@ -193,6 +207,11 @@ public class AdapterNotlarListesi extends RecyclerView.Adapter<RecyclerView.View
             int etkilenenSatirSayisi=resolver.delete(CONTENT_URI,"id=?", new String[]{silinecekNotID});
             if(etkilenenSatirSayisi != 0){
                 tumNotlar.remove(silinecekNot);
+
+                if(tumNotlar.isEmpty() && (mFiltre == Filtreler.TAMAMLANANLAR || mFiltre == Filtreler.TAMAMLANMAYANLAR)){
+                    NotSepetiApp.sharedYaz(mContext, Filtreler.NOFILTER);
+                    EventBus.getDefault().post(new DataEvent.DataGuncelleMethoduTetikle(1));
+                }
                 update(tumNotlar);
 
             }

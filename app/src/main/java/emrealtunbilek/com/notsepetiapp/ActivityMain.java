@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -70,7 +71,11 @@ public class ActivityMain extends AppCompatActivity{
         LinearLayoutManager mLayoutmanger=new LinearLayoutManager(this);
         mRecyclerViewNotlar.setLayoutManager(mLayoutmanger);
         mAdapterNotlarListesi=new AdapterNotlarListesi(this, tumNotlar);
+
+        mAdapterNotlarListesi.setHasStableIds(true);
+
         mRecyclerViewNotlar.setAdapter(mAdapterNotlarListesi);
+
 
 //swipe işlemi için yapılanlar
         SimpleTouchCallback callback=new SimpleTouchCallback();
@@ -114,11 +119,9 @@ public class ActivityMain extends AppCompatActivity{
     }
 
     public void dataGuncelle(String siralama, String tamamlanma) {
-
         tumNotlar.clear();
         tumNotlar=tumNotlariGetir(siralama, tamamlanma);
         mAdapterNotlarListesi.update(tumNotlar);
-
     }
 
     private void notekleDialogGoster() {
