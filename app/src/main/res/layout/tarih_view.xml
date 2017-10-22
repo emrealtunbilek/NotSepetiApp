@@ -11,23 +11,19 @@
         android:text="15"
         style="@style/tarih_item_style" />
     <Space
-        android:layout_width="32dp"
+        android:layout_width="@dimen/tarih_item_arasi_bosluk"
         android:layout_height="match_parent" />
 
     <TextView
-        android:layout_width="96dp"
-        android:layout_height="match_parent"
         android:id="@+id/tv_tarih_ay"
         android:text="OCA"
         style="@style/tarih_item_style"
         />
 
     <Space
-        android:layout_width="32dp"
+        android:layout_width="@dimen/tarih_item_arasi_bosluk"
         android:layout_height="match_parent" />
     <TextView
-        android:layout_width="96dp"
-        android:layout_height="match_parent"
         android:id="@+id/tv_tarih_yil"
         style="@style/tarih_item_style"
         android:text="2017"
