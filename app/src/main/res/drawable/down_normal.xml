@@ -10,8 +10,9 @@
 
     </item>
 
-    <item android:drawable="@drawable/ic_action_arrow_bottom" android:gravity="center">
+    <item>
 
+        <bitmap android:src="@drawable/ic_action_arrow_bottom" android:gravity="center"></bitmap>
 
     </item>
 

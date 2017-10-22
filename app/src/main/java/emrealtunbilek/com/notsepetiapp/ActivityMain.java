@@ -1,6 +1,9 @@
 package emrealtunbilek.com.notsepetiapp;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,6 +33,7 @@ import emrealtunbilek.com.notsepetiapp.adapter.Filtreler;
 import emrealtunbilek.com.notsepetiapp.adapter.SimpleTouchCallback;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
+import emrealtunbilek.com.notsepetiapp.services.BildirimServisi;
 
 public class ActivityMain extends AppCompatActivity{
 
@@ -114,6 +118,11 @@ public class ActivityMain extends AppCompatActivity{
         }
 
         backgrounResminiYerlestir();
+
+        AlarmManager manager= (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent=new Intent(this, BildirimServisi.class);
+        PendingIntent pendingIntent=PendingIntent.getService(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, 50000, pendingIntent);
 
 
     }

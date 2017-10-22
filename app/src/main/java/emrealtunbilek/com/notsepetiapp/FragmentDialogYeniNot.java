@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Logger;
 
 import java.util.Calendar;
 
@@ -67,6 +68,7 @@ public class FragmentDialogYeniNot extends DialogFragment {
 
                 ContentValues values = new ContentValues();
                 values.put("notIcerik", mNotIcerik.getText().toString());
+                values.put("notEklenmeTarih", System.currentTimeMillis());
                 values.put("notTarih", mNotTarih.getTime());
                 Uri uri = getActivity().getContentResolver().insert(CONTENT_URI, values);
                 EventBus.getDefault().post(new DataEvent.DataGuncelleMethoduTetikle(1));

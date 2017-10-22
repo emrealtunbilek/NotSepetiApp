@@ -36,11 +36,12 @@ public class NotlarProvider extends ContentProvider {
 
     //database ve tablolar ile ilgili kısım
     private final static String DATABASE_NAME="notlar.db";
-    private final static int DATABASE_VERSION=7;
+    private final static int DATABASE_VERSION=8;
     private final static String NOTLAR_TABLE_NAME="notlar";
     private final static String CREATE_NOTLAR_TABLE = " CREATE TABLE " + NOTLAR_TABLE_NAME
             +" (id INTEGER PRIMARY KEY AUTOINCREMENT, "
             +" notIcerik TEXT NOT NULL,"
+            +" notEklenmeTarih INTEGER , "
             +" notTarih INTEGER , "
             +" tamamlandi INTEGER DEFAULT 0);";
     //database ve tablolar ile ilgili kısım
