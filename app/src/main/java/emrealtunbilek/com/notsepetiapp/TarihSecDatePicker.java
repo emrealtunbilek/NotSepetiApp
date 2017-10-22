@@ -132,6 +132,9 @@ public class TarihSecDatePicker extends LinearLayout implements View.OnTouchList
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                    // Toast.makeText(getContext(), "Yukarı tıklandı : " + textView.getId(), Toast.LENGTH_SHORT).show();
                     arttir(textView.getId());
+                    arkaplaniDegistir(textView, 1);
+                }else if(event.getAction() == MotionEvent.ACTION_UP){
+                    arkaplaniEskiHalineGetir(textView);
                 }
 
 
@@ -140,6 +143,9 @@ public class TarihSecDatePicker extends LinearLayout implements View.OnTouchList
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                    // Toast.makeText(getContext(), "Aşağı tıklandı :" + textView.getId(), Toast.LENGTH_SHORT).show();
                     azalt(textView.getId());
+                    arkaplaniDegistir(textView, 2);
+                }else if(event.getAction() == MotionEvent.ACTION_UP){
+                    arkaplaniEskiHalineGetir(textView);
                 }
 
             } else {
@@ -149,6 +155,27 @@ public class TarihSecDatePicker extends LinearLayout implements View.OnTouchList
 
 
         }
+
+    }
+
+    private void arkaplaniEskiHalineGetir(TextView textView) {
+
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.up_normal,0,R.drawable.down_normal);
+    }
+
+    private void arkaplaniDegistir(TextView textView, int i) {
+
+        if(i==1){
+
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.up_normal_pressed,0,R.drawable.down_normal);
+
+        }else {
+
+
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.up_normal,0,R.drawable.down_normal_pressed);
+
+        }
+
 
     }
 
