@@ -1,6 +1,7 @@
 package emrealtunbilek.com.notsepetiapp.services;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +9,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import br.com.goncalves.pugnotification.notification.PugNotification;
+import emrealtunbilek.com.notsepetiapp.ActivityMain;
+import emrealtunbilek.com.notsepetiapp.R;
 import emrealtunbilek.com.notsepetiapp.data.Notlar;
 import emrealtunbilek.com.notsepetiapp.data.NotlarProvider;
 
@@ -26,18 +30,34 @@ public class BildirimServisi extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "BildirimServisi: onhandleıntent");
         tamamlanmayanNotlar=tamamlanmayanNotlariGetir();
-
+        bildirimYolla();
         for(Notlar geciciNot : tamamlanmayanNotlar){
 
 
             if(bildirimGerekli(geciciNot.getNotEklenmetarihi(), geciciNot.getNotTarih())){
 
-                Log.e(TAG, "Bildirim Gerekli");
+             //  bildirimYolla();
 
             }
 
         }
 
+    }
+
+    private void bildirimYolla() {
+
+        PugNotification.with(this)
+                .load()
+                .title("GÖREVİ TAMAMLA")
+                .message("%90'dan az bir zaman kaldı, Görevi tamamlamak ister misin?")
+                .bigTextStyle("Hadi gidip görevi tamamlayalım")
+                .smallIcon(R.drawable.ic_action_balloon)
+                .largeIcon(R.drawable.ic_action_balloon)
+                .flags(Notification.DEFAULT_ALL)
+                .click(ActivityMain.class)
+                .autoCancel(true)
+                .simple()
+                .build();
     }
 
     private boolean bildirimGerekli(long notEklenmetarihi, long notTarih) {
