@@ -30,13 +30,13 @@ public class BildirimServisi extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "BildirimServisi: onhandleıntent");
         tamamlanmayanNotlar=tamamlanmayanNotlariGetir();
-        bildirimYolla();
+
         for(Notlar geciciNot : tamamlanmayanNotlar){
 
 
             if(bildirimGerekli(geciciNot.getNotEklenmetarihi(), geciciNot.getNotTarih())){
 
-             //  bildirimYolla();
+              bildirimYolla();
 
             }
 

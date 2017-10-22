@@ -122,7 +122,7 @@ public class ActivityMain extends AppCompatActivity{
         AlarmManager manager= (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent=new Intent(this, BildirimServisi.class);
         PendingIntent pendingIntent=PendingIntent.getService(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, 10000, pendingIntent);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, 360000, pendingIntent);
 
 
     }
