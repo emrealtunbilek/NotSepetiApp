@@ -124,24 +124,25 @@ public class TarihSecDatePicker extends LinearLayout implements View.OnTouchList
             Rect yukariSinir = drawables[1].getBounds();
             Rect asagiSinir = drawables[3].getBounds();
 
-            float x=event.getX();
-            float y=event.getY();
+            float x = event.getX();
+            float y = event.getY();
 
-            if(yukariDrawableTiklandi(textView, yukariSinir, x, y)){
+            if (yukariDrawableTiklandi(textView, yukariSinir, x, y)) {
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    Toast.makeText(getContext(), "Yukarı tıklandı : "+textView.getId(), Toast.LENGTH_SHORT).show();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                   // Toast.makeText(getContext(), "Yukarı tıklandı : " + textView.getId(), Toast.LENGTH_SHORT).show();
+                    arttir(textView.getId());
                 }
 
 
+            } else if (asagiDrawableTiklandi(textView, asagiSinir, x, y)) {
 
-            }else if(asagiDrawableTiklandi(textView, asagiSinir, x, y)){
-
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    Toast.makeText(getContext(), "Aşağı tıklandı :" + textView.getId(), Toast.LENGTH_SHORT).show();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                   // Toast.makeText(getContext(), "Aşağı tıklandı :" + textView.getId(), Toast.LENGTH_SHORT).show();
+                    azalt(textView.getId());
                 }
 
-            }else{
+            } else {
 
 
             }
@@ -151,30 +152,80 @@ public class TarihSecDatePicker extends LinearLayout implements View.OnTouchList
 
     }
 
+    private void azalt(int id) {
+
+        switch (id){
+
+            case R.id.tv_tarih_gun:
+                mCalendar.add(Calendar.DATE, -1);
+                break;
+
+            case R.id.tv_tarih_ay:
+                mCalendar.add(Calendar.MONTH, -1);
+                break;
+
+            case R.id.tv_tarih_yil:
+                mCalendar.add(Calendar.YEAR, -1);
+                break;
+        }
+
+        textviewlariYeniTarihleGuncelle(mCalendar);
+    }
+
+    private void textviewlariYeniTarihleGuncelle(Calendar mCalendar) {
+
+        int gun=mCalendar.get(Calendar.DATE);
+        int yil=mCalendar.get(Calendar.YEAR);
+
+        mTextGun.setText(""+gun);
+        mTextAy.setText(mFormatter.format(mCalendar.getTime()));
+        mTextYil.setText(""+yil);
+    }
+
+    private void arttir(int id) {
+
+        switch (id){
+
+            case R.id.tv_tarih_gun:
+                mCalendar.add(Calendar.DATE, 1);
+                break;
+
+            case R.id.tv_tarih_ay:
+                mCalendar.add(Calendar.MONTH, 1);
+                break;
+
+            case R.id.tv_tarih_yil:
+                mCalendar.add(Calendar.YEAR, 1);
+                break;
+        }
+
+        textviewlariYeniTarihleGuncelle(mCalendar);
+
+    }
 
 
     private boolean yukariDrawableTiklandi(TextView textView, Rect yukariSinir, float x, float y) {
 
-        int xmin=textView.getPaddingLeft();
-        int xmax=textView.getWidth() - textView.getPaddingRight();
+        int xmin = textView.getPaddingLeft();
+        int xmax = textView.getWidth() - textView.getPaddingRight();
 
-        int ymin=textView.getPaddingTop();
-        int ymax=textView.getPaddingTop()+ yukariSinir.height();
+        int ymin = textView.getPaddingTop();
+        int ymax = textView.getPaddingTop() + yukariSinir.height();
 
-        return x > xmin  && x < xmax && y > ymin && y<ymax;
+        return x > xmin && x < xmax && y > ymin && y < ymax;
 
     }
 
     private boolean asagiDrawableTiklandi(TextView textView, Rect asagiSinir, float x, float y) {
 
-        int xmin=textView.getPaddingLeft();
-        int xmax=textView.getWidth() - textView.getPaddingRight();
+        int xmin = textView.getPaddingLeft();
+        int xmax = textView.getWidth() - textView.getPaddingRight();
 
-        int ymax=textView.getHeight()- textView.getPaddingBottom();
-        int ymin=ymax-asagiSinir.height();
+        int ymax = textView.getHeight() - textView.getPaddingBottom();
+        int ymin = ymax - asagiSinir.height();
 
 
-        return x > xmin  && x < xmax && y > ymin && y<ymax;
+        return x > xmin && x < xmax && y > ymin && y < ymax;
     }
 
     private boolean yukariDrawableVarmi(Drawable[] drawables) {
