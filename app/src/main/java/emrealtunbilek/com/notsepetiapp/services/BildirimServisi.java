@@ -36,7 +36,7 @@ public class BildirimServisi extends IntentService {
 
             if(bildirimGerekli(geciciNot.getNotEklenmetarihi(), geciciNot.getNotTarih())){
 
-              bildirimYolla();
+              bildirimYolla(geciciNot.getNotIcerik());
 
             }
 
@@ -44,11 +44,11 @@ public class BildirimServisi extends IntentService {
 
     }
 
-    private void bildirimYolla() {
+    private void bildirimYolla(String mesaj) {
 
         PugNotification.with(this)
                 .load()
-                .title("GÖREVİ TAMAMLA")
+                .title("GÖREVİ TAMAMLA : " + mesaj)
                 .message("%90'dan az bir zaman kaldı, Görevi tamamlamak ister misin?")
                 .bigTextStyle("Hadi gidip görevi tamamlayalım")
                 .smallIcon(R.drawable.ic_action_balloon)
@@ -67,7 +67,8 @@ public class BildirimServisi extends IntentService {
         if(now > notTarih){
             return false;
         }else {
-            long yuzde90 =(long) 0.9 * (notTarih - notEklenmetarihi);
+            long yuzde90 =(long) (0.9 * (notTarih - notEklenmetarihi));
+            Log.e("emre","yuzde90: "+yuzde90+" eklenme:"+notEklenmetarihi+" nottarih:"+notTarih);
             return (now > (notEklenmetarihi + yuzde90)) ? true : false;
         }
     }
@@ -85,6 +86,7 @@ public class BildirimServisi extends IntentService {
                 Notlar geciciNot=new Notlar();
                 geciciNot.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 geciciNot.setNotIcerik(cursor.getString(cursor.getColumnIndex("notIcerik")));
+                geciciNot.setNotEklenmetarihi(cursor.getLong(cursor.getColumnIndex("notEklenmeTarih")));
                 geciciNot.setNotTarih(cursor.getLong(cursor.getColumnIndex("notTarih")));
                 geciciNot.setTamamlandi(cursor.getInt(cursor.getColumnIndex("tamamlandi")));
                 tamamlanmayanlar.add(geciciNot);
